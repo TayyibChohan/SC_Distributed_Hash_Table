@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package ProtocolBuffers;
+option go_package = "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/shared/ProtocolBuffers";
+
+option java_package = "ca.NetSysLab.ProtocolBuffers";
+option java_outer_classname = "KeyValueResponse";
+
+message KVResponse {
+    uint32 errCode = 1;
+    optional bytes value = 2;
+    optional int32 pid = 3;
+    optional int32 version = 4;
+    optional int32 overloadWaitTime = 5;
+    optional int32 membershipCount = 6;
+}
+
