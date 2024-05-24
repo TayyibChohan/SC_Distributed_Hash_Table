@@ -38,9 +38,28 @@ func main() {
 
 	//Create a message using protocol buffers
 	buffer := make([]byte, constants.MAX_MESSAGE_SIZE)
-	myKVrequest := &ProtocolBuffers.KVrequest{}
+	myKVrequest := &ProtocolBuffers.KeyValueRequest{
+		Key:   "key",
+		Value: "value",
+		Command: 1,
 
-	KVrequest, err := ProtocolBuffers.Marshal
+	}
+	//Marshal the message
+	myKVr, err := proto.Marshal(myKVrequest)
+	//create a checksum
+	checksum := utils.Checksum(myKVrequest)
+
+	//create a message
+	message := &ProtocolBuffers.Message{
+		KeyValueRequest: myKVr,
+		Checksum: checksum,
+	}
+	
+	//send the checksum
+	_, err = conn.Write(checksum)
+
+	message := &ProtocolBuffers.Message{
+		
 
 	// Send data to server
 	message := []byte("Hello, server!")
