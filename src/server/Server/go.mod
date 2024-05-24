@@ -8,6 +8,8 @@ replace github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Structures/
 
 replace github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Constants => ../Constants
 
+replace github.com/TayyibChohan/SC_Distributed_Hash_Table/src/shared/ProtocolBuffers => ../../shared/ProtocolBuffer
+
 require (
 	github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Constants v0.0.0-00010101000000-000000000000
 	github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Structures/nodes v0.0.0-00010101000000-000000000000
