@@ -1,4 +1,4 @@
-module github.com/TayyibChohan/SC_Distributed_Hash_Table/shared
+module github.com/TayyibChohan/SC_Distributed_Hash_Table/ProtocolBuffers
 
 go 1.22.3
 
