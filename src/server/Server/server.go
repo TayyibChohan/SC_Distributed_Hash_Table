@@ -1,32 +1,33 @@
 package server
 
 import (
-	"github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Structures/nodes"
-	"github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Constants"
 	"net"
 	"strconv"
+
+	"github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Structures/nodes"
+	ProtocolBuffers "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/shared/ProtocolBuffers"
 )
 
 type Server struct {
 	// Fields
-	port int
-	ip   string
-	updSocket net.PacketConn
+	port          int
+	ip            string
+	updSocket     net.PacketConn
 	possibleNodes []*nodes.ServerNode
 }
 
 // NewServer creates a new server with the given port and possible nodes
 func NewServer(port int, possibleNodes []*nodes.ServerNode) *Server {
 	//Create udp socket
-	updSocket, err := net.ListenPacket("udp", "localhost:" + strconv.Itoa(port))
+	updSocket, err := net.ListenPacket("udp", "localhost:"+strconv.Itoa(port))
 	if err != nil {
 		return nil
 	}
 
 	return &Server{
 		port:          port,
-		ip:          constants.LOCALHOST,
-		updSocket:    updSocket,
+		ip:            constants.LOCALHOST,
+		updSocket:     updSocket,
 		possibleNodes: possibleNodes,
 	}
 }
@@ -35,14 +36,15 @@ func NewServer(port int, possibleNodes []*nodes.ServerNode) *Server {
 func (s *Server) Run() {
 	defer s.updSocket.Close()
 
-	buffer := make([]byte, constants.MAX_MESSAGE_SIZE)
 	for {
+		buffer := make([]byte, constants.MAX_MESSAGE_SIZE)
 		_, addr, err := s.updSocket.ReadFrom(buffer)
 		if err != nil {
 			continue
 		}
 
-		go s.handleRequest(buffer, addr)
+		bufferCopy := make([]byte, len(buffer))
+		go s.handleRequest(bufferCopy, addr)
 	}
 }
 
@@ -51,7 +53,3 @@ func (s *Server) handleRequest(buffer []byte, addr net.Addr) {
 	print("Received request from: " + addr.String())
 	// Placeholder code
 }
-
-		
-	
-

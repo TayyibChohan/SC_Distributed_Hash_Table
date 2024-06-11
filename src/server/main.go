@@ -5,8 +5,8 @@ import (
 	"os"
 	"strconv"
 
+	server "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Server"
 	"github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Utils"
-	"github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Server"
 )
 
 func main() {
