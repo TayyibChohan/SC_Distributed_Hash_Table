@@ -1,12 +1,15 @@
 package server
 
 import (
+	"fmt"
 	"net"
 	"strconv"
 
-	"github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Structures/nodes"
-	ProtocolBuffers "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/shared/ProtocolBuffers"
+	ProtocolBuffers "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/ProtocolBuffers"
 	constants "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Constants"
+	"github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Structures/nodes"
+	"github.com/golang/protobuf/proto"
+	"github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Utils"
 )
 
 type Server struct {
@@ -53,4 +56,35 @@ func (s *Server) Run() {
 func (s *Server) handleRequest(buffer []byte, addr net.Addr) {
 	print("Received request from: " + addr.String())
 	// Placeholder code
+	myKVrequest := &ProtocolBuffers.KVRequest{}
+	err := proto.Unmarshal(buffer, myKVrequest)
+	if err != nil {
+		fmt.Println("Error unmarshalling message:", err)
+		return
+	}
+
+	myResponse := &ProtocolBuffers.KVResponse{} //TODO: Implement this
+	payload, err := proto.Marshal(myResponse)
+	if err != nil {
+		fmt.Println("Error marshalling message:", err)
+		return
+	}
+
+	checkSum := Utils.Checksum(myResponse)
+	id := Utils.CreateID()
+
+	message:= &ProtocolBuffers.Msg{
+		MessageID: id,
+		Payload: payload,
+		CheckSum: checkSum,
+	}
+
+	// Send response
+	go func() {
+		_, err := s.updSocket.WriteTo(payload, addr)
+		if err != nil {
+			fmt.Println("Error sending response:", err)
+		}
+	}()
+
 }
