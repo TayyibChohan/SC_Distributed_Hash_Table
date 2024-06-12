@@ -1,5 +1,9 @@
 package KVStore
 
+import (
+	errCodes "github.com/omkz/golang-assignment/src/server/Constants/ErrorCodes"
+)
+
 type KVStore struct {
 	// Fields
 }
@@ -17,8 +21,9 @@ func (kv *KVStore) Get(key string) string {
 }
 
 // Put inserts the given key-value pair
-func (kv *KVStore) Put(key string, value string) {
+func (kv *KVStore) Put(key byte[], value byte[], version int32) errCodes.ErrorCode {
 	// Your code here
+	return errCodes.OPERATION_SUCCESSFUL
 }
 
 // Delete removes the key-value pair for the given key

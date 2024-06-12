@@ -9,7 +9,7 @@ import (
 	commands "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Constants/Commands"
 	errorCodes "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Constants/ErrorCodes"
 
-	. "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Structures/Hasher"
+	. "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Hasher"
 	. "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Structures/KVStore"
 )
 
