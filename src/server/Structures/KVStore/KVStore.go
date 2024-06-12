@@ -1,27 +1,27 @@
-package main
+package KVStore
 
-type kvStore struct {
+type KVStore struct {
 	// Fields
 }
 
-// NewKVStore creates a new kvStore
-func NewKVStore() *kvStore {
+// NewKVStore creates a new KVStore
+func NewKVStore() *KVStore {
 	// Your code here
 	return nil
 }
 
 // Get retrieves the value for the given key
-func (kv *kvStore) Get(key string) string {
+func (kv *KVStore) Get(key string) string {
 	// Your code here
 	return ""
 }
 
 // Put inserts the given key-value pair
-func (kv *kvStore) Put(key string, value string) {
+func (kv *KVStore) Put(key string, value string) {
 	// Your code here
 }
 
 // Delete removes the key-value pair for the given key
-func (kv *kvStore) Delete(key string) {
+func (kv *KVStore) Delete(key string) {
 	// Your code here
 }
