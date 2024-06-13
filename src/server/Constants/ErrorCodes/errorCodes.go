@@ -1,6 +1,7 @@
 package errorCodes
 
 // ERROR CODES
+type ErrorCode int
 
 const (
 	OPERATION_SUCCESSFUL = 0

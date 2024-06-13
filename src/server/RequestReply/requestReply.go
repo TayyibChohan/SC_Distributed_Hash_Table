@@ -16,16 +16,16 @@ import (
 // CommandCodes, ErrorCodes, and CommonResponses should be defined according to your application's requirements.
 
 type RequestReply struct {
-	PrimaryKVStore   KVStore
-	SecondaryKVStore KVStore
-	Hasher           Hasher
+	PrimaryKVStore   *KVStore
+	SecondaryKVStore *KVStore
+	Hasher           *Hasher
 }
 
 func NewRequestReply(hasher Hasher, primaryKVStore, secondaryKVStore KVStore) *RequestReply {
 	return &RequestReply{
-		PrimaryKVStore:   primaryKVStore,
-		SecondaryKVStore: secondaryKVStore,
-		Hasher:           hasher,
+		PrimaryKVStore:   &primaryKVStore,
+		SecondaryKVStore: &secondaryKVStore,
+		Hasher:           &hasher,
 	}
 }
 
@@ -35,6 +35,9 @@ func (rr *RequestReply) HandleRequest(kvRequest *ProtocolBuffers.KVRequest) (*Pr
 	switch kvRequest.Command {
 	case commands.PUT:
 		return rr.put(kvRequest.Key, kvRequest.Value, *kvRequest.Version, true), nil
+	case commands.SHUTDOWN:
+		rr.shutdown()
+
 	// Add other cases here
 	default:
 		return nil, errors.New("invalid command")
@@ -42,16 +45,19 @@ func (rr *RequestReply) HandleRequest(kvRequest *ProtocolBuffers.KVRequest) (*Pr
 }
 
 func (rr *RequestReply) put(key, value []byte, version int32, isPrimary bool) *ProtocolBuffers.KVResponse {
-	// Implement put operation here
-	// This is a simplified example
-	errCode := rr.PrimaryKVStore.Put(key, value, version)
-	if errCode != errorCodes.OPERATION_SUCCESSFUL {
-		return &ProtocolBuffers.KVResponse{ErrCode: errCode}
+	//TODO: Update to handle replication
+	success := rr.PrimaryKVStore.Put(key, value, version)
+	if !success {
+		return &ProtocolBuffers.KVResponse{ErrCode: errorCodes.OUT_OF_SPACE}
 	}
 	return &ProtocolBuffers.KVResponse{ErrCode: errorCodes.OPERATION_SUCCESSFUL}
 }
 
-// Implement other methods (get, remove, wipeout, etc.) similarly
+func (rr *RequestReply) get(key []byte) *ProtocolBuffers.KVResponse {
+	return rr.PrimaryKVStore.Get(string(key))
+}
+
+
 
 func (rr *RequestReply) shutdown() {
 	os.Exit(constants.SHUTDOWN_EXIT_CODE)
