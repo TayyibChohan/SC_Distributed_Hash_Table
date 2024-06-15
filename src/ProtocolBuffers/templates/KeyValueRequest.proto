@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package ProtocolBuffers;
+option go_package = "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/shared/ProtocolBuffers";
+
+option java_package = "ca.NetSysLab.ProtocolBuffers";
+option java_outer_classname = "KeyValueRequest";
+
+message ServerNode {
+    optional bytes ip = 1;
+    optional int32 port = 2;
+    optional uint64 timestamp = 3;
+}
+
+message KeyValue {
+    bytes key = 1;
+    bytes value = 2;
+    int32 version = 3;
+}
+
+message KVRequest {
+    uint32 command = 1;
+    optional bytes key = 2;
+    optional bytes value = 3;
+    optional int32 version = 4;
+    optional bytes clientIP = 5;
+    optional int32 clientPort = 6;
+    repeated ServerNode serverNodes = 7;
+    repeated KeyValue keyValues = 8;
+}

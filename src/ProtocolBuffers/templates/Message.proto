@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package ProtocolBuffers;
+option go_package = "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/shared/ProtocolBuffers";
+
+option java_package = "ca.NetSysLab.ProtocolBuffers";
+option java_outer_classname = "Message";
+
+message Msg {
+    bytes messageID = 1;
+    bytes payload = 2;
+    fixed64 checkSum = 3;
+}
