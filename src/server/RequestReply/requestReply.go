@@ -132,9 +132,17 @@ func (rr *RequestReply) get(key []byte) *ProtocolBuffers.KVResponse {
 // TODO: Handle failure case
 func (rr *RequestReply) remove(key []byte, isPrimary bool) *ProtocolBuffers.KVResponse {
 	if isPrimary {
+		if !rr.PrimaryKVStore.ContainsKey(string(key)) {
+			return &ProtocolBuffers.KVResponse{ErrCode: errorCodes.NONEXISTENT_KEY}
+		}
+		
 		rr.PrimaryKVStore.Remove(string(key))
 		return &ProtocolBuffers.KVResponse{ErrCode: errorCodes.OPERATION_SUCCESSFUL}
 	} else {
+		if !rr.SecondaryKVStore.ContainsKey(string(key)) {
+			return &ProtocolBuffers.KVResponse{ErrCode: errorCodes.NONEXISTENT_KEY}
+		}
+
 		rr.SecondaryKVStore.Remove(string(key))
 		return &ProtocolBuffers.KVResponse{ErrCode: errorCodes.OPERATION_SUCCESSFUL}
 	}

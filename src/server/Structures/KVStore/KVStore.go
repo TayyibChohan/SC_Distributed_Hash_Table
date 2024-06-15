@@ -50,7 +50,7 @@ func (kv *KVStore) Put(key []byte, value []byte, version int32) bool {
 	return true // Assuming you have an error code for success
 }
 
-func (kv *KVStore) ContainsKey(key []byte) bool {
+func (kv *KVStore) ContainsKey(key string) bool {
 	kv.mu.Lock()
 	defer kv.mu.Unlock()
 	keyStr := string(key)
