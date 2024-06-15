@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-var PID = os.Getpid()
+var PID = int32(os.Getpid())
 
 const (
 	// Server constants

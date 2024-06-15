@@ -89,10 +89,11 @@ func (kv *KVStore) Remove(key string) {
 	}
 }
 
-func (kv *KVStore) Clear() {
+func (kv *KVStore) Wipeout() {
 	kv.mu.Lock()
 	defer kv.mu.Unlock()
 
 	kv.kvMap = make(map[string]*pb.KVResponse, len(kv.kvMap))
 	kv.totalItemSize = 0
 }
+
