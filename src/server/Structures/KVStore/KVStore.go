@@ -2,8 +2,10 @@ package KVStore
 
 import (
 	"sync"
+
 	pb "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/ProtocolBuffers"
 	constants "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Constants"
+	errorCodes "github.com/TayyibChohan/SC_Distributed_Hash_Table/src/server/Constants/ErrorCodes"
 )
 
 type KVStore struct {
@@ -19,7 +21,7 @@ func NewKVStore() *KVStore {
 	return &KVStore{
 		kvMap:              make(map[string]*pb.KVResponse, constants.MAXIMUM_TOTAL_KV_SIZE),
 		totalItemSize:      0,
-		maxKVStoreCapacity: constants.MAXIMUM_TOTAL_KV_SIZE*constants.MAX_VALUE_SIZE,
+		maxKVStoreCapacity: constants.MAXIMUM_TOTAL_KV_SIZE * constants.MAX_VALUE_SIZE,
 	}
 }
 
@@ -29,6 +31,7 @@ func (kv *KVStore) Put(key []byte, value []byte, version int32) bool {
 	defer kv.mu.Unlock()
 
 	val := &pb.KVResponse{
+		ErrCode: errorCodes.OPERATION_SUCCESSFUL,
 		Value:   value,
 		Version: &version,
 	}
@@ -96,4 +99,3 @@ func (kv *KVStore) Wipeout() {
 	kv.kvMap = make(map[string]*pb.KVResponse, len(kv.kvMap))
 	kv.totalItemSize = 0
 }
-

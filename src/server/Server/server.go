@@ -50,13 +50,14 @@ func (s *Server) Run() {
 	defer s.udpSocket.Close()
 	for {
 		buffer := make([]byte, constants.MAX_MESSAGE_SIZE)
-		_, addr, err := s.udpSocket.ReadFrom(buffer)
+		n, addr, err := s.udpSocket.ReadFrom(buffer)
 		if err != nil {
 			continue
 		}
 
-		bufferCopy := make([]byte, len(buffer))
-		go s.handleRequest(bufferCopy, addr)
+		bufferCopy := make([]byte, n)
+		copy(bufferCopy, buffer)
+		s.handleRequest(bufferCopy, addr) // Handle request in a goroutine later
 	}
 }
 

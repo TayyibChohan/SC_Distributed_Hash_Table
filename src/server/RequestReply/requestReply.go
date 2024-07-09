@@ -100,7 +100,7 @@ func (rr *RequestReply) HandleRequest(kvRequest *ProtocolBuffers.KVRequest) (*Pr
 	}
 
 }
-func (rr *RequestReply) put(key, value []byte, version int32, isPrimary bool) *ProtocolBuffers.KVResponse {
+func (rr *RequestReply) put(key []byte, value []byte, version int32, isPrimary bool) *ProtocolBuffers.KVResponse {
 	//TODO: Update to handle replication
 	if isPrimary {
 		success := rr.PrimaryKVStore.Put(key, value, version)
